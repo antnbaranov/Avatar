@@ -2,8 +2,8 @@ class UsersController < ApplicationController
   before_action :set_user, only: :show
 
   def show
+    # @letters = @user.name.split.map(&:email).join.upcase[0..1]
     @letters = @user.name.upcase[0..1]
-
   end
 
   private

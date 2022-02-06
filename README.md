@@ -1,24 +1,87 @@
-# README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+![alt text](app/assets/images/meme.png)
 
-Things you may want to cover:
+# If there is no usermodel yet, user logic #
 
-* Ruby version
+```ruby
+#Gemfile
+gem "devise"
+```
+```ruby
+$ rails generate devise:install
+```
 
-* System dependencies
+```ruby
+$ rails generate devise User
+```
 
-* Configuration
+```ruby
+$ rails g migration AddNameToUsers name:string
 
-* Database creation
+$ rake db:migrate
+```
 
-* Database initialization
 
-* How to run the test suite
+```ruby
+#app/controllers/application_controller.rb
 
-* Services (job queues, cache servers, search engines, etc.)
+class ApplicationController < ActionController::Base
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
-* Deployment instructions
+  protected
 
-* ...
+  def configure_permitted_parameters
+    added_attrs = %i[name]
+    devise_parameter_sanitizer.permit(:sign_up, keys: added_attrs)
+  end
+
+end
+```
+
+
+```ruby
+$ rails generate controller Users
+```
+
+```ruby
+#app/controllers/users_controller.rb
+
+class UsersController < ApplicationController
+  before_action :set_user, only: :show
+
+  def show
+    @letters = @user.name.upcase[0..1]
+    #2 Field 
+    # @letters = @user.name.split.map(&:email).join.upcase[0..1]
+  end
+
+  private
+
+  def set_user
+    @user = User.find_by name: params[:name]
+  end
+
+end
+```
+
+```html
+#app/views/users/show.html.erb
+
+<div style="text-align: center;">
+
+  <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="50" cy="50" r="50" fill="#9090FF"/>
+<text fill="#fff" font-family="Helvetica,Arial,sans-serif" font-size="36" font-weight="500" x="50%" y="55%" dominant-baseline="middle" text-anchor="middle">
+<%= @letters %>
+  </text>
+</svg>
+
+  <%= @user.name %>
+
+</div>
+```
+
+
+
+
+
