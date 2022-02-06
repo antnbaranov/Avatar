@@ -1,2 +1,7 @@
-<h1>Home#welcome</h1>
-<p>Find me in app/views/home/welcome.html.erb</p>
+<div class="container">
+  <% if user_signed_in? %>
+    <%= link_to "Acc", current_user.name %>
+  <% else %>
+    <%= image_tag ("meme.png"), class: "img-responsive" %>
+  <% end %>
+</div>
