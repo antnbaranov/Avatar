@@ -43,6 +43,8 @@ end
 $ rails generate controller Users
 ```
 
+# The meaning of the repository, replacing the gem #
+
 ```ruby
 #app/controllers/users_controller.rb
 
@@ -50,9 +52,8 @@ class UsersController < ApplicationController
   before_action :set_user, only: :show
 
   def show
-    @letters = @user.name.upcase[0..1]
-    #2 Field 
-    # @letters = @user.name.split.map(&:email).join.upcase[0..1]
+    # @letters = @user.name.upcase[0..1]
+    @letters = @user.name.split.map(&:chr).join.upcase[0..1]
   end
 
   private

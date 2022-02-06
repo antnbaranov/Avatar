@@ -3,7 +3,6 @@ class UsersController < ApplicationController
 
   def show
     # @letters = @user.name.upcase[0..1]
-
     @letters = @user.name.split.map(&:chr).join.upcase[0..1]
   end
 
